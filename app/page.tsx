@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="rounded-xl shadow m-4 p-6">
       <textarea
-        className="w-full rounded p-3 text-black"
+        className="w-full border border-gray-400 rounded p-3 text-black"
         placeholder="Geminiへの質問を入力してください"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
