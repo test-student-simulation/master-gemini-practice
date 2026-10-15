@@ -9,18 +9,20 @@ export async function POST(request: Request) {
             apiKey: process.env.GEMINI_API_KEY,
         });
 
+        // モデル一覧
+        // https://aistudio.google.com/docs/models
         const response = await ai.models.generateContent({
-            model: 'gemini-3.1-flash-lite',
+            model: 'gemini-3.8-flash',
             contents: prompt,
         });
 
         return NextResponse.json({
             answer: response.text,
         });
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        const data = JSON.parse(error.message ?? '{}').error;
         return NextResponse.json(
-            { error: 'Gemini APIの呼び出しに失敗しました' },
+            { error: `Gemini APIの呼び出しに失敗しました code(${data?.code}) message(${data?.message.substring(0, 120)}...)` },
             { status: 500 }
         );
     }
