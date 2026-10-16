@@ -382,9 +382,11 @@ vercelアカウントをgithubアカウントで作成して連携する。
 
 プロジェクトの Overview 画面の左側メニューから Environment Variables を選択して GEMINI_API_KEY を登録する。
 
-key: GEMINI_API_KEY
-value: (google ai studioからコピー)
-type: Secret
+| 項目 | 設定値 |
+|---|---|
+| Key | `GEMINI_API_KEY` |
+| Value | Google AI Studioからコピー |
+| Type | Secret |
 
 
 ## 16. セキュリティに関する重要事項
