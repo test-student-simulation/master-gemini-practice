@@ -6,16 +6,20 @@ export default function Home() {
   const [answer, setAnswer] = useState("");
 
   async function askGemini() {
-    const res = await fetch("/api/gemini", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt }),
-    });
+    try {
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
 
-    const data = await res.json();
-    setAnswer(data.answer ?? data.error ?? "エラーが発生しました");
+      const data = await res.json();
+      setAnswer(data.answer ?? data.error ?? "エラーが発生しました");
+    } catch {
+      setAnswer("サーバーとの通信に失敗しました。VS Codeのターミナルのエラーを確認してください");
+    }
   }
 
   return (

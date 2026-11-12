@@ -2,6 +2,14 @@ import { GoogleGenAI } from '@google/genai';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+    // APIキーが読み込めていないときは、Geminiに問い合わせる前に知らせる
+    if (!process.env.GEMINI_API_KEY) {
+        return NextResponse.json(
+            { error: 'GEMINI_API_KEYが設定されていません。.env.localを確認し、npm run devを再起動してください' },
+            { status: 500 }
+        );
+    }
+
     try {
         const { prompt } = await request.json();
 
@@ -19,10 +27,18 @@ export async function POST(request: Request) {
         return NextResponse.json({
             answer: response.text,
         });
-    } catch (error: any) {
-        const data = JSON.parse(error.message ?? '{}').error;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        let detail = message;
+        try {
+            // Geminiのサーバーから返ったエラーはJSON形式なので、codeとmessageを取り出す
+            const data = JSON.parse(message).error;
+            detail = `code(${data?.code}) message(${data?.message})`;
+        } catch {
+            // JSONでないエラー（通信エラーなど）は、そのまま表示する
+        }
         return NextResponse.json(
-            { error: `Gemini APIの呼び出しに失敗しました code(${data?.code}) message(${data?.message.substring(0, 120)}...)` },
+            { error: `Gemini APIの呼び出しに失敗しました ${detail.substring(0, 160)}...` },
             { status: 500 }
         );
     }
