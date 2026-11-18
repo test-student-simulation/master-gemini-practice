@@ -20,7 +20,7 @@ export async function POST(request: Request) {
         // モデル一覧
         // https://aistudio.google.com/docs/models
         const response = await ai.models.generateContent({
-            model: 'gemini-3.6-flash',
+            model: 'gemini-3.1-flash-lite',
             contents: prompt,
         });
 
