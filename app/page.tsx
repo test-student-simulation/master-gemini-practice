@@ -28,7 +28,9 @@ export default function Home() {
         className="w-full border border-gray-400 rounded p-3 text-black"
         placeholder="Geminiへの質問を入力してください"
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => {
+          setPrompt(e.target.value);
+        }}
       />
       <button
         className="mt-3 rounded bg-blue-500 px-6 py-2 text-white"
